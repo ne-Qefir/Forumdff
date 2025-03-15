@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 14.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 14.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 60.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --radius: 0.75rem;
+
+    /* Forum specific colors - Dark Mode (Default) */
+    --dark-bg: 220 7% 13%;
+    --secondary-bg: 220 5% 20%;
+    --blue-gray: 220 21% 39%;
+    --bright-blue-gray: 227 58% 65%;
+    --admin-red: 0 85% 61%;
+    --mod-green: 152 50% 48%;
+    --user-gray: 206 17% 65%;
+    --divider: 223 5% 27%;
+
+    /* Chart colors */
+    --chart-1: var(--primary);
+    --chart-2: 20 95% 57%;
+    --chart-3: 0 84% 60%;
+    --chart-4: 259 94% 44%;
+    --chart-5: 314 100% 40%;
+
+    /* Sidebar colors (match main colors) */
+    --sidebar-background: 220 5% 20%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 224.3 76.3% 48%;
+  }
+
+  /* Light Theme Variables */
+  .light-theme {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+
+    --primary: 227 58% 65%;
+    --primary-foreground: 220 0% 100%;
+
+    --secondary: 220 0% 96%;
+    --secondary-foreground: 220 10% 20%;
+
+    --muted: 220 0% 96%;
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 220 0% 96%;
+    --accent-foreground: 220 10% 20%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 10% 86%;
+    --input: 220 10% 86%;
+    --ring: 227 58% 65%;
+
+    /* Forum specific colors - Light Mode */
+    --dark-bg: 220 25% 97%;
+    --secondary-bg: 220 10% 94%;
+    --blue-gray: 220 21% 60%;
+    --bright-blue-gray: 227 58% 65%;
+    --admin-red: 0 85% 61%;
+    --mod-green: 152 50% 48%;
+    --user-gray: 206 17% 45%;
+    --divider: 223 15% 85%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    @apply font-sans antialiased;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-dark-bg text-foreground;
+  }
+
+  /* Обеспечиваем правильный цвет текста для светлой темы */
+  .light-theme {
+    @apply text-[hsl(224,71.4%,4.1%)];
+  }
+}
+
+/* Анимация блика для кнопок и карточек */
+@keyframes shineEffect {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Базовый класс для элементов с эффектом блика */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg, 
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shineEffect 3s linear infinite;
+  pointer-events: none;
+}
+
+/* Анимация огонька по периметру */
+@keyframes borderFlame {
+  0%, 100% {
+    filter: blur(1px) brightness(1);
+  }
+  50% {
+    filter: blur(3px) brightness(1.2);
+  }
+}
+
+/* Базовый класс для элементов с эффектом огонька */
+.flame-border {
+  position: relative;
+}
+
+.flame-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    hsl(var(--primary)),
+    hsl(var(--destructive)),
+    hsl(var(--primary))
+  );
+  border-radius: calc(var(--radius) + 2px);
+  animation: borderFlame 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Custom classes for forum-specific styling */
+.bg-dark-bg {
+  background-color: hsl(var(--dark-bg));
+}
+
+.bg-secondary-bg {
+  background-color: hsl(var(--secondary-bg));
+}
+
+.bg-blue-gray {
+  background-color: hsl(var(--blue-gray));
+}
+
+.bg-bright-blue-gray {
+  background-color: hsl(var(--bright-blue-gray));
+}
+
+.bg-admin-red {
+  background-color: hsl(var(--admin-red));
+}
+
+.bg-mod-green {
+  background-color: hsl(var(--mod-green));
+}
+
+.bg-user-gray {
+  background-color: hsl(var(--user-gray));
+}
+
+.border-divider {
+  border-color: hsl(var(--divider));
+}
+
+.text-blue-gray {
+  color: hsl(var(--blue-gray));
+}
+
+.text-bright-blue-gray {
+  color: hsl(var(--bright-blue-gray));
+}
+
+.text-admin-red {
+  color: hsl(var(--admin-red));
+}
+
+.text-mod-green {
+  color: hsl(var(--mod-green));
+}
+
+.text-user-gray {
+  color: hsl(var(--user-gray));
+}
+
+/* Дополнительные классы для адаптивного дизайна */
+.max-w-screen {
+  max-width: 100vw;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Обработка цветов для светлой темы */
+.light-theme .text-white {
+  color: hsl(224, 71.4%, 4.1%);
+}
+
+.light-theme .input::placeholder,
+.light-theme .textarea::placeholder {
+  color: hsl(220, 10%, 40%);
+}
+
+/* Карточки и компоненты с темным фоном в светлой теме */
+.light-theme .bg-dark-bg input,
+.light-theme .bg-dark-bg textarea,
+.light-theme .bg-dark-bg select {
+  color: hsl(224, 71.4%, 4.1%);
+}
+
+/* Role badge styling */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
+  margin-left: 6px;
+}
+
+/* Скрытие полосы прокрутки для мобильных устройств */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE и Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari и Opera */
+}
